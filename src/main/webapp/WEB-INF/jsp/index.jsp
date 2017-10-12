@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="/css/box.css" />
     <link rel="stylesheet" href="/css/font-awesome/font-awesome.min.css" />
     <script>
+        var tem="",
+                jsrand="20170927";
+    </script>
+    <%--<script>
         var langtxt = {
                     "checkupdatetips":"对不起！您的权限不够，无法操作在线升级。",
                     "detection":"检测中",
@@ -29,8 +33,8 @@
                 apppath="http://app.metinfo.cn/index.php?lang=cn&",
                 jsrand="53175"
                 ;
-    </script>
-    <!--[if IE]><script src="/js/html5.js" type="text/javascript"></script><![endif]-->
+    </script>--%>
+    <!--[if IE]><script src="/js/public/js/html5.js" type="text/javascript"></script><![endif]-->
 </head>
 <body>
 <input id="met_automatic_upgrade" type="hidden" value="1" />
@@ -48,8 +52,8 @@
         <dl >
             <dt>内容</dt>
             <dd>
-                <a href="/admin/index.php?n=content&c=content&a=doadd&anyid=68&lang=cn"  title="发布"  id="metinfo_metnav_68"><i class="fa fa-plus"></i>发布</a>
-                <a href="/admin/content/content.php?anyid=29&lang=cn"  title="管理"  id="metinfo_metnav_29"><i class="fa fa-th-large"></i>管理</a>
+                <a href="/content/publish.html"  title="发布"  id="metinfo_metnav_68"><i class="fa fa-plus"></i>发布</a>
+                <a href="/content/manage.html"  title="管理"  id="metinfo_metnav_29"><i class="fa fa-th-large"></i>管理</a>
             </dd>
         </dl>
 
@@ -59,8 +63,7 @@
                 <%--<a href="/admin/app/stat/index.php?anyid=34&lang=cn"  title="访问统计"  id="metinfo_metnav_34"><i class="fa fa-line-chart"></i>访问统计</a>
                 <a href="/admin/interface/online/index.php?anyid=71&lang=cn"  title="客服"  id="metinfo_metnav_71"><i class="fa fa-comments-o"></i>客服</a>
                 <a href="/admin/index.php?n=seo&c=seo&a=doindex&anyid=37&lang=cn"  title="SEO"  id="metinfo_metnav_37"><i class="fa fa-check"></i>SEO</a>--%>
-                <a href="/market/friendshiplink.html?pnow=1&linktype=3&guan=0"  title="友情链接"  id="metinfo_metnav_39"><i class="fa fa-link"></i>友情链接</a>
-                    <a href="/um/uninersity.html?pnow=1&type=0&authentication=0  " title="大学管理" id="uninersity"><i style=" font-size: 14px;margin-left: 8px; display: inline;color: #A7C6DC" class="fa fa-link">&nbsp;&nbsp;&nbsp;&nbsp;大学管理</i></a>
+                <a href="/market/friendshiplink.html"  title="友情链接"  id="metinfo_metnav_39"><i class="fa fa-link"></i>友情链接</a>
             </dd>
         </dl>
 
@@ -105,7 +108,7 @@
             <dd>
                 <a href="/setting/baseWebInfo.html"  title="基本信息"  id="metinfo_metnav_57"><i class="fa fa-newspaper-o"></i>基本信息</a>
                 <%--<a href="/admin/app/wap/wap.php?anyid=77&lang=cn"  title="手机版"  id="metinfo_metnav_77"><i class="fa fa-mobile"></i>手机版</a>--%>
-                <a href="/admin/column/index.php?anyid=25&lang=cn"  title="栏目"  id="metinfo_metnav_25"><i class="fa fa-sitemap"></i>栏目</a>
+                <a href="/setting/columns.html"  title="栏目"  id="metinfo_metnav_25"><i class="fa fa-sitemap"></i>栏目</a>
                 <%--<a href="/admin/system/lang/lang.php?anyid=10&lang=cn"  title="语言"  id="metinfo_metnav_10"><i class="fa fa-language"></i>语言</a>--%>
                 <%--<a href="/admin/system/img.php?anyid=11&lang=cn"  title="缩略图/水印"  id="metinfo_metnav_11"><i class="fa fa-picture-o"></i>缩略图/水印</a>--%>
             </dd>
@@ -115,7 +118,7 @@
     <%--嵌入iframe--%>
     <div class="metcms_cont_right">
         <div class="metcms_cont_right_box">
-            <iframe src="" frameborder="0"></iframe>
+            <iframe src="/welcome.html" frameborder="0"></iframe>
         </div>
     </div>
     <div class="clear"></div>
@@ -128,6 +131,6 @@
         document.getElementById("metinfo_metnav_18").style.display="none";
     }
 </script>
-<script src="/js/sea.js"></script>
+<script src="/js/app/system/include/public/js/sea.js"></script>
 </body>
 </html>
