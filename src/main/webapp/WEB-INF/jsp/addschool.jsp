@@ -346,7 +346,7 @@
                     <dl>
                         <dt>大学logo：</dt>
                         <dd>
-                            <input name="met_upsql1" type="file" id="file_upload" />
+                            <input name="met_upsql1"  type="file" id="file_upload" />
                            <%-- <script type="text/javascript">
                                 $(document).ready(function(){
                                     metuploadify('#file_upload','upimage','weblogo');

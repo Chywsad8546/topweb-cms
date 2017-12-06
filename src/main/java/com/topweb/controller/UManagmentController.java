@@ -137,6 +137,8 @@ public class UManagmentController {
         ModelAndView modelAndView=new ModelAndView("forward:/um/uninersity.html");
         School school=new School();
 
+        long logsize=image.getSize();
+
         //文件上传
         ResultViewModel result = new ResultViewModel();
         //上传七牛云服务器
@@ -217,73 +219,76 @@ public class UManagmentController {
 
         MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
         List<MultipartFile> files=multiRequest.getFiles("picture");
-         for (MultipartFile item:files){
-                    String pickey=System.currentTimeMillis()+"_" + item.getOriginalFilename();
-                     Schoolimg schoolimg=new Schoolimg();
-                     schoolimg.setPicturename(pickey);
-                     schoolimg.setSid(sid);
-                     um.addshoolimg(schoolimg);
-             try {
-                 Response response = uploadManager.put(item.getBytes(), pickey, upToken);
-                 //解析上传成功的结果
-                 DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-                 if (putRet != null) {
 
-                     FileUploadReturnModel returnModel = new FileUploadReturnModel();
-                     returnModel.setFilepath(pickey);
-                     returnModel.setOriginal("../" + pickey);
-                     result.setObject(returnModel);
-                     result.setCode(ResultCode.UPLOAD_SUCCESS);
-                     result.setMessage(ResultCode.UPLOAD_SUCCESS_MSG);
-                     System.out.println("putnull");
-                 } else {
-                     result.setCode(ResultCode.UPLOAD_FAIL);
-                     result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
-                     System.out.println("putnotnull");
-                 }
-             } catch (QiniuException ex) {
-                 Response r = ex.response;
-                 result.setCode(ResultCode.UPLOAD_FAIL);
-                 result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
-                 System.out.println("qiniuex");
-             } catch (IOException e) {
-                 e.printStackTrace();
-                 result.setCode(ResultCode.UPLOAD_FAIL);
-                 result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
+        if (files.get(0).getSize()!=0) {
+            for (MultipartFile item : files) {
+                String pickey = System.currentTimeMillis() + "_" + item.getOriginalFilename();
+                Schoolimg schoolimg = new Schoolimg();
+                schoolimg.setPicturename(pickey);
+                schoolimg.setSid(sid);
+                um.addshoolimg(schoolimg);
+                try {
+                    Response response = uploadManager.put(item.getBytes(), pickey, upToken);
+                    //解析上传成功的结果
+                    DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+                    if (putRet != null) {
+                        FileUploadReturnModel returnModel = new FileUploadReturnModel();
+                        returnModel.setFilepath(pickey);
+                        returnModel.setOriginal("../" + pickey);
+                        result.setObject(returnModel);
+                        result.setCode(ResultCode.UPLOAD_SUCCESS);
+                        result.setMessage(ResultCode.UPLOAD_SUCCESS_MSG);
+                        System.out.println("putnull");
+                    } else {
+                        result.setCode(ResultCode.UPLOAD_FAIL);
+                        result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
+                        System.out.println("putnotnull");
+                    }
+                } catch (QiniuException ex) {
+                    Response r = ex.response;
+                    result.setCode(ResultCode.UPLOAD_FAIL);
+                    result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
+                    System.out.println("qiniuex");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    result.setCode(ResultCode.UPLOAD_FAIL);
+                    result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
 
-                 System.out.println("ioex");
-             }
-         }
+                    System.out.println("ioex");
+                }
+            }
+        }
 
+        if (logsize!=0) {
+            try {
+                Response response = uploadManager.put(image.getBytes(), key, upToken);
+                //解析上传成功的结果
+                DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+                if (putRet != null) {
 
-        try {
-            Response response = uploadManager.put(image.getBytes(), key, upToken);
-            //解析上传成功的结果
-            DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            if (putRet != null) {
-
-            FileUploadReturnModel returnModel = new FileUploadReturnModel();
-                returnModel.setFilepath(key);
-                returnModel.setOriginal("../" + key);
-                result.setObject(returnModel);
-                result.setCode(ResultCode.UPLOAD_SUCCESS);
-                result.setMessage(ResultCode.UPLOAD_SUCCESS_MSG);
-                System.out.println("putnull");
-            } else {
+                    FileUploadReturnModel returnModel = new FileUploadReturnModel();
+                    returnModel.setFilepath(key);
+                    returnModel.setOriginal("../" + key);
+                    result.setObject(returnModel);
+                    result.setCode(ResultCode.UPLOAD_SUCCESS);
+                    result.setMessage(ResultCode.UPLOAD_SUCCESS_MSG);
+                    System.out.println("putnull");
+                } else {
+                    result.setCode(ResultCode.UPLOAD_FAIL);
+                    result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
+                    System.out.println("putnotnull");
+                }
+            } catch (QiniuException ex) {
+                Response r = ex.response;
                 result.setCode(ResultCode.UPLOAD_FAIL);
                 result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
-                System.out.println("putnotnull");
+                System.out.println("qiniuex");
+            } catch (IOException e) {
+                e.printStackTrace();
+                result.setCode(ResultCode.UPLOAD_FAIL);
+                result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
+                System.out.println("ioex");
             }
-        } catch (QiniuException ex) {
-            Response r = ex.response;
-            result.setCode(ResultCode.UPLOAD_FAIL);
-            result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
-            System.out.println("qiniuex");
-        } catch (IOException e) {
-            e.printStackTrace();
-            result.setCode(ResultCode.UPLOAD_FAIL);
-            result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
-            System.out.println("ioex");
         }
 
 
@@ -309,6 +314,8 @@ public class UManagmentController {
        // System.out.println("该id"+id);
         School school=new School();
 
+        long logsize=image.getSize();
+
         //文件上传
         ResultViewModel result = new ResultViewModel();
         //上传七牛云服务器
@@ -316,31 +323,74 @@ public class UManagmentController {
         UploadManager uploadManager = new UploadManager(cfg);
         Auth auth = Auth.create(ConstantUtil.QINIU_ACCESS_KEY, ConstantUtil.QINIU_SECRET_KEY);
         String upToken = auth.uploadToken(ConstantUtil.QINIU_BUCKET);
-
-        String key = System.currentTimeMillis()+"_" + image.getOriginalFilename();
-        school.setImg(key);
+        String key="";
+        if (logsize!=0) {
+             key = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            school.setImg(key);
+        }else {
+          School simg=  um.upschool(id);
+            school.setImg(simg.getImg());
+        }
 
         MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
         List<MultipartFile> files=multiRequest.getFiles("picture");
-        for (MultipartFile item:files){
-            String pickey=System.currentTimeMillis()+"_" + item.getOriginalFilename();
-                     Schoolimg simg=new Schoolimg();
-                     simg.setSid(id);
-                     simg.setPicturename(pickey);
-                     um.addshoolimg(simg);
+
+        //打小
+       if (files.get(0).getSize()!=0){
+           for (MultipartFile item:files){
+               String pickey=System.currentTimeMillis()+"_" + item.getOriginalFilename();
+               Schoolimg simg=new Schoolimg();
+               simg.setSid(id);
+               simg.setPicturename(pickey);
+               um.addshoolimg(simg);
+               try {
+                   Response response = uploadManager.put(item.getBytes(), pickey, upToken);
+                   //解析上传成功的结果
+                   DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+                   if (putRet != null) {
+
+                       FileUploadReturnModel returnModel = new FileUploadReturnModel();
+                       returnModel.setFilepath(pickey);
+                       returnModel.setOriginal("../" + pickey);
+                       result.setObject(returnModel);
+                       result.setCode(ResultCode.UPLOAD_SUCCESS);
+                       result.setMessage(ResultCode.UPLOAD_SUCCESS_MSG);
+                       System.out.println("putseusses");
+                   } else {
+                       result.setCode(ResultCode.UPLOAD_FAIL);
+                       result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
+                       System.out.println("putnotnull");
+                   }
+               } catch (QiniuException ex) {
+                   Response r = ex.response;
+                   result.setCode(ResultCode.UPLOAD_FAIL);
+                   result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
+                   System.out.println("qiniuex");
+               } catch (IOException e) {
+                   e.printStackTrace();
+                   result.setCode(ResultCode.UPLOAD_FAIL);
+                   result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
+                   System.out.println("ioex");
+               }
+           }
+       }
+
+
+
+        if (logsize!=0){
             try {
-                Response response = uploadManager.put(item.getBytes(), pickey, upToken);
+                Response response = uploadManager.put(image.getBytes(), key, upToken);
                 //解析上传成功的结果
                 DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
                 if (putRet != null) {
 
                     FileUploadReturnModel returnModel = new FileUploadReturnModel();
-                    returnModel.setFilepath(pickey);
-                    returnModel.setOriginal("../" + pickey);
+                    returnModel.setFilepath(key);
+                    returnModel.setOriginal("../" + key);
                     result.setObject(returnModel);
                     result.setCode(ResultCode.UPLOAD_SUCCESS);
                     result.setMessage(ResultCode.UPLOAD_SUCCESS_MSG);
-                    System.out.println("putseusses");
+                    System.out.println("putnull");
                 } else {
                     result.setCode(ResultCode.UPLOAD_FAIL);
                     result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
@@ -360,35 +410,6 @@ public class UManagmentController {
         }
 
 
-        try {
-            Response response = uploadManager.put(image.getBytes(), key, upToken);
-            //解析上传成功的结果
-            DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            if (putRet != null) {
-
-                FileUploadReturnModel returnModel = new FileUploadReturnModel();
-                returnModel.setFilepath(key);
-                returnModel.setOriginal("../" + key);
-                result.setObject(returnModel);
-                result.setCode(ResultCode.UPLOAD_SUCCESS);
-                result.setMessage(ResultCode.UPLOAD_SUCCESS_MSG);
-                System.out.println("putnull");
-            } else {
-                result.setCode(ResultCode.UPLOAD_FAIL);
-                result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
-                System.out.println("putnotnull");
-            }
-        } catch (QiniuException ex) {
-            Response r = ex.response;
-            result.setCode(ResultCode.UPLOAD_FAIL);
-            result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
-            System.out.println("qiniuex");
-        } catch (IOException e) {
-            e.printStackTrace();
-            result.setCode(ResultCode.UPLOAD_FAIL);
-            result.setMessage(ResultCode.UPLOAD_FAIL_MSG);
-            System.out.println("ioex");
-        }
 
 
        // System.out.println("学校id:"+id);
